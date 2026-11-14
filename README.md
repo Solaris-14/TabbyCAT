@@ -1,36 +1,40 @@
-# DOMINO 🀄 — The Timeline Chain Reaction Game
+# WIKIDOMINO 🀄 — The Wikipedia Hyperlink Chain Reaction
 
-A daily history deduction game built for the **Entertainment Track** at **HackPrinceton Fall 2026**. Inspired by *Wordle*, *Globle*, and *Krillion*.
-
----
-
-## 🎯 Gameplay & Concept
-Connect two disparate historical moments across time by constructing a continuous chronological chain of dominoes.
-
-1. **Origin & Target:** Every puzzle gives you a starting historical event and a target milestone (e.g. *1889: Eiffel Tower Opens* ➡️ *1969: Moon Landing*).
-2. **Search & Slot:** Search and place 3 intermediate events into the domino slots.
-3. **The Butterfly Effect:** Once filled, click **TOPPLE DOMINOES**. If your chain is strictly chronological, a domino cascade animation knocks down the tiles in sequence, triggering procedural sound effects and celebratory confetti!
-4. **Game Modes:**
-   - **Daily Domino:** A shared seed for everyone each calendar day.
-   - **Quick Play (Unlimited):** Procedurally generated endless timeline challenges for fast hackathon judging demos.
+A daily Wikiracing puzzle game built for the **Entertainment Track** at **HackPrinceton Fall 2026**. Inspired by *Wordle*, *Globle*, and *Wikiracing*.
 
 ---
 
-## 🛠️ Tech Stack
-- **Framework:** React 19 + Vite + TypeScript
-- **Styling:** Tailwind CSS v4 + Lucide Icons
-- **Audio:** Web Audio API (zero-latency synthetic sound engine for tile clicks, topples, and fanfares)
-- **Effects:** Canvas Confetti + 3D CSS Perspectives
+## 🎯 Concept & Gameplay
+Navigate across human knowledge by jumping through Wikipedia hyperlinks:
+* **The Goal:** Connect an Origin article to a Target destination (e.g. **Taylor Swift** ➡️ **Napoleon**).
+* **Every Click is a Domino:** Each hyperlink you click appends a new physical 3D Domino tile to your growing chain.
+* **Radar & Link Filter:** Search and filter hundreds of article links instantaneously, or spot the target beacon when within 1 hop!
+* **The Climax ("Topple the Chain"):** Once you reach your destination, hit **TOPPLE THE CHAIN** to watch your path knock down in sequence with tactile Web Audio sound effects, followed by a celebratory confetti shower and a Wordle-style share grid.
 
 ---
 
-## 🚀 Running Locally
+## 🚀 Daily Challenges Included
+1. **#1: Pop Royalty to Emperor of the French** (`Taylor Swift` ➡️ `Napoleon`, Par 3)
+2. **#2: Blocky Worlds to Antiquity** (`Minecraft` ➡️ `Julius Caesar`, Par 3)
+3. **#3: Pink Blockbuster to Nuclear Standoff** (`Barbie (film)` ➡️ `Cold War`, Par 2)
+4. **#4: Crypto Frontier to Ancient Egypt** (`Bitcoin` ➡️ `Cleopatra`, Par 3)
+5. **#5: 8-Bit Plumber to the Renaissance** (`Super Mario Bros.` ➡️ `Leonardo da Vinci`, Par 3)
 
-```bash
-# Install dependencies
-npm install
+---
 
-# Start Vite dev server
+## 🛠️ Tech Architecture
+* **Frontend:** React 19 + Vite + TypeScript
+* **Styling:** Tailwind CSS v4 + Lucide Icons + 3D CSS Perspectives
+* **Data Sources:** Live Wikipedia REST API + MediaWiki Action API with offline mock fallback
+* **Audio:** Zero-dependency procedural Web Audio API sound synthesizer
+* **Effects:** Canvas Confetti
+
+---
+
+## 💻 Running the Game
+
+```powershell
+# Start Vite development server
 npm run dev
 
 # Build for production
