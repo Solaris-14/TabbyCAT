@@ -1,41 +1,30 @@
-export type Category = 
-  | 'Science & Tech'
-  | 'Arts & Culture'
-  | 'World History'
-  | 'Exploration'
-  | 'Pop Culture';
-
-export interface HistoricalEvent {
-  id: string;
+export interface WikiArticle {
   title: string;
-  year: number;
-  description: string;
-  category: Category;
-  icon: string; // emoji representation
+  displayTitle: string;
+  description?: string;
+  extract: string;
+  thumbnail?: string;
+  outgoingLinks: string[];
 }
 
-export type SlotFeedback = 'empty' | 'correct' | 'wrong-chronology' | 'close';
-
-export interface GameDominoSlot {
-  index: number;
-  expectedEvent: HistoricalEvent;
-  placedEvent?: HistoricalEvent;
-  feedback: SlotFeedback;
-  yearDelta?: number;
+export interface WikiHop {
+  step: number;
+  article: WikiArticle;
 }
 
-export interface GameChallenge {
+export interface WikiChallenge {
   id: string;
   dateKey?: string;
-  startEvent: HistoricalEvent;
-  targetEvent: HistoricalEvent;
-  chain: HistoricalEvent[]; // Intermediate required events in chronological order
+  title: string;
+  startTitle: string;
+  targetTitle: string;
+  parHops: number; // optimal shortest path estimate
+  hint?: string;
 }
 
-export interface GameStats {
+export interface WikiGameStats {
   played: number;
   won: number;
+  bestHops: number;
   currentStreak: number;
-  maxStreak: number;
-  guessDistribution: Record<number, number>;
 }
