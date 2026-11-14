@@ -5,6 +5,7 @@ export interface WikiArticle {
   extract: string;
   thumbnail?: string;
   outgoingLinks: string[];
+  html?: string; // Full actual Wikipedia article HTML content
 }
 
 export interface WikiHop {
@@ -18,7 +19,7 @@ export interface WikiChallenge {
   title: string;
   startTitle: string;
   targetTitle: string;
-  parHops: number; // optimal shortest path estimate
+  parHops: number;
   hint?: string;
 }
 

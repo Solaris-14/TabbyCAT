@@ -43,7 +43,6 @@ export const DAILY_CHALLENGES: WikiChallenge[] = [
   },
 ];
 
-// Offline pre-cached article bank to guarantee the demo works even without internet
 export const PRECACHED_ARTICLES: Record<string, WikiArticle> = {
   'Taylor Swift': {
     title: 'Taylor Swift',
@@ -64,23 +63,24 @@ export const PRECACHED_ARTICLES: Record<string, WikiArticle> = {
       'Rolling Stone',
       'Billboard 200',
       'Eras Tour',
-      'Sony Music',
       'United States',
       'France',
       'London',
-      'Music video',
-      'Universal Music Group',
-      'MTV Video Music Awards',
-      'English language',
-      'Feminism',
     ],
+    html: `
+      <div class="wiki-prose">
+        <p><strong>Taylor Alison Swift</strong> (born December 13, 1989) is an American singer-songwriter. Known for her autobiographical songwriting and cultural impact, she has received extensive media coverage across the globe.</p>
+        <p>Born in West Reading, <a href="/wiki/Pennsylvania">Pennsylvania</a>, Swift moved to <a href="/wiki/Nashville,_Tennessee">Nashville, Tennessee</a> at age 14 to pursue a career in <a href="/wiki/Country_music">country music</a>. She signed with Big Machine Records in 2005 and released her eponymous debut album in 2006.</p>
+        <p>Swift explored <a href="/wiki/Pop_music">pop music</a>, synth-pop, and alternative styles on albums such as <em>1989</em>, <em>Folklore</em>, and <em>Midnights</em>. She has won multiple <a href="/wiki/Grammy_Awards">Grammy Awards</a> and was honored as <a href="/wiki/Time_Person_of_the_Year">Time Person of the Year</a> in 2023. Her record-shaking global stadium tour, the <a href="/wiki/Eras_Tour">Eras Tour</a>, visited dozens of international destinations including Paris, <a href="/wiki/France">France</a> and London in the <a href="/wiki/United_Kingdom">United Kingdom</a>.</p>
+      </div>
+    `,
   },
   'Time Person of the Year': {
     title: 'Time Person of the Year',
     displayTitle: 'Time Person of the Year',
     description: 'Annual issue of the American news magazine Time',
     extract:
-      'Person of the Year is an annual issue of the United States news magazine and website Time that features and profiles a person, a group, an idea, or an object that "for better or for worse... has done the most to influence the events of the year".',
+      'Person of the Year is an annual issue of the United States news magazine Time profiling the person, group, idea, or object that influenced the year the most.',
     thumbnail:
       'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Time_Magazine_logo.svg/440px-Time_Magazine_logo.svg.png',
     outgoingLinks: [
@@ -93,20 +93,21 @@ export const PRECACHED_ARTICLES: Record<string, WikiArticle> = {
       'France',
       'Napoleon',
       'Adolf Hitler',
-      'Joseph Stalin',
-      'Mahatma Gandhi',
-      'Martin Luther King Jr.',
-      'Barack Obama',
-      'Volodymyr Zelenskyy',
-      'Cold War',
     ],
+    html: `
+      <div class="wiki-prose">
+        <p><strong>Person of the Year</strong> is an annual issue of the <a href="/wiki/United_States">United States</a> news magazine <em>Time</em> that features and profiles a person, a group, an idea, or an object that "for better or for worse... has done the most to influence the events of the year".</p>
+        <p>Past honorees have ranged from pop stars like <a href="/wiki/Taylor_Swift">Taylor Swift</a> to historic wartime statesmen such as <a href="/wiki/Franklin_D._Roosevelt">Franklin D. Roosevelt</a> and <a href="/wiki/Winston_Churchill">Winston Churchill</a>.</p>
+        <p>Historical retrospectives published by the magazine have examined monumental leaders of modern statecraft, drawing comparisons between twentieth-century figures and foundational European empire builders like <a href="/wiki/Napoleon">Napoleon</a> and Charlemagne of <a href="/wiki/France">France</a>.</p>
+      </div>
+    `,
   },
   'France': {
     title: 'France',
     displayTitle: 'France',
     description: 'Country located primarily in Western Europe',
     extract:
-      'France, officially the French Republic, is a country located primarily in Western Europe. Its capital and largest city is Paris, a major cultural and commercial center.',
+      'France, officially the French Republic, is a country located primarily in Western Europe. Its capital and largest city is Paris.',
     thumbnail:
       'https://upload.wikimedia.org/wikipedia/en/thumb/c/c3/Flag_of_France.svg/440px-Flag_of_France.svg.png',
     outgoingLinks: [
@@ -117,45 +118,22 @@ export const PRECACHED_ARTICLES: Record<string, WikiArticle> = {
       'European Union',
       'Eiffel Tower',
       'Louvre',
-      'World War I',
-      'World War II',
       'Louis XIV',
-      'Charlemagne',
-      'United Nations',
-      'United States',
-      'United Kingdom',
-      'Germany',
-      'Italy',
     ],
-  },
-  'French Revolution': {
-    title: 'French Revolution',
-    displayTitle: 'French Revolution',
-    description: 'Period of radical social and political upheaval in France (1789–1799)',
-    extract:
-      'The French Revolution was a period of radical political and societal change in France that began with the Estates General of 1789 and ended with the formation of the French Consulate in November 1799 under Napoleon Bonaparte.',
-    thumbnail:
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Eug%C3%A8ne_Delacroix_-_Le_28_Juillet._La_Libert%C3%A9_guidant_le_peuple.jpg/440px-Eug%C3%A8ne_Delacroix_-_Le_28_Juillet._La_Libert%C3%A9_guidant_le_peuple.jpg',
-    outgoingLinks: [
-      'France',
-      'Paris',
-      'Napoleon',
-      'Louis XVI',
-      'Marie Antoinette',
-      'Maximilien Robespierre',
-      'Bastille',
-      'Declaration of the Rights of Man and of the Citizen',
-      'French First Republic',
-      'Jacobin',
-      'Age of Enlightenment',
-    ],
+    html: `
+      <div class="wiki-prose">
+        <p><strong>France</strong>, officially the <strong>French Republic</strong>, is a country located primarily in Western Europe. Its capital and largest city is <a href="/wiki/Paris">Paris</a>, a major global center of art, science, philosophy, and economy.</p>
+        <p>Following the upheaval of the <a href="/wiki/French_Revolution">French Revolution</a> in 1789, the nation transformed rapidly into the First French Empire under the military brilliance of <a href="/wiki/Napoleon">Napoleon</a> Bonaparte, whose campaigns reshaped the political landscape of Europe.</p>
+        <p>Notable French architectural landmarks include the <a href="/wiki/Eiffel_Tower">Eiffel Tower</a>, the Palace of Versailles built by <a href="/wiki/Louis_XIV">Louis XIV</a>, and the <a href="/wiki/Louvre">Louvre</a> Museum.</p>
+      </div>
+    `,
   },
   'Napoleon': {
     title: 'Napoleon',
     displayTitle: 'Napoleon Bonaparte',
     description: 'French military commander and Emperor of the French (1769–1821)',
     extract:
-      'Napoleon Bonaparte was a French military commander and political leader who rose to prominence during the French Revolution and led successful campaigns during the Revolutionary Wars. He was Emperor of the French as Napoleon I from 1804 to 1814 and again briefly in 1815.',
+      'Napoleon Bonaparte was a French military commander and political leader who rose to prominence during the French Revolution and led successful campaigns during the Revolutionary Wars.',
     thumbnail:
       'https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Jacques-Louis_David_-_The_Emperor_Napoleon_in_His_Study_at_the_Tuileries_-_Google_Art_Project.jpg/440px-Jacques-Louis_David_-_The_Emperor_Napoleon_in_His_Study_at_the_Tuileries_-_Google_Art_Project.jpg',
     outgoingLinks: [
@@ -165,70 +143,12 @@ export const PRECACHED_ARTICLES: Record<string, WikiArticle> = {
       'Battle of Waterloo',
       'Corsica',
       'Paris',
-      'Napoleonic Code',
-      'Alexander I of Russia',
-      'Holy Roman Empire',
     ],
-  },
-  'Minecraft': {
-    title: 'Minecraft',
-    displayTitle: 'Minecraft',
-    description: '2011 sandbox video game developed by Mojang Studios',
-    extract:
-      'Minecraft is a 2011 sandbox game developed by Mojang Studios and created by Markus "Notch" Persson in the Java programming language. It is the best-selling video game in history.',
-    thumbnail:
-      'https://upload.wikimedia.org/wikipedia/en/thumb/5/51/Minecraft_cover.png/440px-Minecraft_cover.png',
-    outgoingLinks: [
-      'Video game',
-      'Mojang Studios',
-      'Sweden',
-      'Microsoft',
-      'Java (programming language)',
-      'Lego',
-      'Rome',
-      'Europe',
-      'Survival skills',
-      'Virtual reality',
-    ],
-  },
-  'Rome': {
-    title: 'Rome',
-    displayTitle: 'Rome',
-    description: 'Capital city of Italy',
-    extract:
-      'Rome is the capital city of Italy. It is also the capital of the Lazio region, the center of the Metropolitan City of Rome, and a special comune named Comune di Roma Capitale.',
-    thumbnail:
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Colosseum_in_Rome-April_2007-1-_copie_2B.jpg/440px-Colosseum_in_Rome-April_2007-1-_copie_2B.jpg',
-    outgoingLinks: [
-      'Italy',
-      'Roman Empire',
-      'Roman Republic',
-      'Julius Caesar',
-      'Augustus',
-      'Colosseum',
-      'Vatican City',
-      'Pope',
-      'Latin',
-    ],
-  },
-  'Julius Caesar': {
-    title: 'Julius Caesar',
-    displayTitle: 'Julius Caesar',
-    description: 'Roman general and statesman (100–44 BC)',
-    extract:
-      'Gaius Julius Caesar was a Roman general and statesman. A member of the First Triumvirate, Caesar led the Roman armies in the Gallic Wars before defeating his political rival Pompey in a civil war, subsequently becoming dictator of Rome.',
-    thumbnail:
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Retrato_de_Julio_C%C3%A9sar_%2826724093101%29_%28cropped%29.jpg/440px-Retrato_de_Julio_C%C3%A9sar_%2826724093101%29_%28cropped%29.jpg',
-    outgoingLinks: [
-      'Roman Republic',
-      'Roman Empire',
-      'Rome',
-      'Cleopatra',
-      'Mark Antony',
-      'Augustus',
-      'Gallic Wars',
-      'Ides of March',
-      'Latin',
-    ],
+    html: `
+      <div class="wiki-prose">
+        <p><strong>Napoleon Bonaparte</strong> (born Napoleone Buonaparte; 15 August 1769 – 5 May 1821) was a French military commander and political leader who rose to prominence during the <a href="/wiki/French_Revolution">French Revolution</a>.</p>
+        <p>Born on the island of <a href="/wiki/Corsica">Corsica</a>, he rose rapidly through the ranks of the French military and became Emperor of the French in 1804. He fought dozens of major engagements during the Napoleonic Wars before his eventual defeat at the <a href="/wiki/Battle_of_Waterloo">Battle of Waterloo</a> in 1815.</p>
+      </div>
+    `,
   },
 };

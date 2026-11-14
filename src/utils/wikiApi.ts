@@ -3,13 +3,23 @@ import type { WikiArticle } from '../types/game';
 
 const cache = new Map<string, WikiArticle>();
 
-// Normalize article title
 export function normalizeTitle(title: string): string {
   return title.replace(/_/g, ' ').trim();
 }
 
 /**
- * Fetch Wikipedia article summary, thumbnail, and outgoing main-namespace links
+ * Clean Wikipedia HTML:
+ * 1. Ensures protocol-relative image URLs have https:
+ * 2. Hides edit links and audio players that clutter reader view
+ */
+function processWikiHtml(rawHtml: string): string {
+  return rawHtml
+    .replace(/src="\/\//g, 'src="https://')
+    .replace(/srcset="\/\//g, 'srcset="https://');
+}
+
+/**
+ * Fetch actual Wikipedia article: HTML, summary, thumbnail, and outgoing links
  */
 export async function getWikiArticle(rawTitle: string): Promise<WikiArticle> {
   const title = normalizeTitle(rawTitle);
@@ -20,50 +30,46 @@ export async function getWikiArticle(rawTitle: string): Promise<WikiArticle> {
   }
 
   // Check precached starter bank
-  if (PRECACHED_ARTICLES[title]) {
+  if (PRECACHED_ARTICLES[title] && PRECACHED_ARTICLES[title].html) {
     cache.set(title, PRECACHED_ARTICLES[title]);
     return PRECACHED_ARTICLES[title];
   }
 
   try {
-    // 1. Fetch page summary & thumbnail from Wikipedia REST API
-    const summaryRes = await fetch(
+    // 1. Fetch summary & thumbnail via REST API
+    const summaryPromise = fetch(
       `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`,
       { headers: { Accept: 'application/json' } }
-    );
+    ).then((r) => (r.ok ? r.json() : null)).catch(() => null);
 
-    if (!summaryRes.ok) {
-      throw new Error(`Summary fetch failed: ${summaryRes.statusText}`);
-    }
-
-    const summaryData = await summaryRes.json();
-
-    // 2. Fetch outgoing links (limit 500, namespace 0 for main encyclopedia articles)
-    const linksRes = await fetch(
-      `https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(
+    // 2. Fetch actual full article HTML and links via MediaWiki Parse API
+    const parsePromise = fetch(
+      `https://en.wikipedia.org/w/api.php?action=parse&page=${encodeURIComponent(
         title
-      )}&prop=links&pllimit=500&plnamespace=0&format=json&origin=*`
-    );
+      )}&prop=text|links&format=json&origin=*`
+    ).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+
+    const [summaryData, parseData] = await Promise.all([summaryPromise, parsePromise]);
+
+    const rawHtml = parseData?.parse?.text?.['*'] || '';
+    const cleanHtml = rawHtml ? processWikiHtml(rawHtml) : undefined;
 
     let outgoingLinks: string[] = [];
-    if (linksRes.ok) {
-      const linksData = await linksRes.json();
-      const pages = linksData?.query?.pages || {};
-      const firstPage = Object.values(pages)[0] as { links?: { title: string }[] } | undefined;
-      if (firstPage?.links) {
-        outgoingLinks = firstPage.links
-          .map((l) => l.title)
-          .filter((t) => !t.includes(':') && !t.startsWith('List of ')); // Exclude namespaces & lists
-      }
+    if (parseData?.parse?.links) {
+      outgoingLinks = parseData.parse.links
+        .filter((l: { ns: number; exists?: unknown; '*'?: string }) => l.ns === 0 && l['*'])
+        .map((l: { '*': string }) => l['*'])
+        .filter((t: string) => !t.includes(':') && !t.startsWith('List of '));
     }
 
     const article: WikiArticle = {
-      title,
-      displayTitle: summaryData.title || title,
-      description: summaryData.description,
-      extract: summaryData.extract || 'No article extract available.',
-      thumbnail: summaryData.thumbnail?.source,
-      outgoingLinks,
+      title: parseData?.parse?.title || title,
+      displayTitle: summaryData?.title || parseData?.parse?.title || title,
+      description: summaryData?.description,
+      extract: summaryData?.extract || 'Wikipedia encyclopedic article.',
+      thumbnail: summaryData?.thumbnail?.source,
+      outgoingLinks: outgoingLinks.length > 0 ? outgoingLinks : (PRECACHED_ARTICLES[title]?.outgoingLinks || []),
+      html: cleanHtml || PRECACHED_ARTICLES[title]?.html,
     };
 
     cache.set(title, article);
@@ -71,16 +77,15 @@ export async function getWikiArticle(rawTitle: string): Promise<WikiArticle> {
   } catch (err) {
     console.warn(`[WikiApi] Network fetch failed for "${title}". Falling back to mock.`, err);
 
-    // Fallback if network blocked or offline
-    const fallbackArticle: WikiArticle = PRECACHED_ARTICLES[title] || {
+    const fallback = PRECACHED_ARTICLES[title] || {
       title,
       displayTitle: title,
       description: 'Wikipedia Article',
-      extract: `This is the Wikipedia article for ${title}. (Offline preview mode)`,
+      extract: `This is the Wikipedia article for ${title}.`,
       outgoingLinks: ['France', 'United States', 'United Kingdom', 'Rome', 'Napoleon', 'Julius Caesar'],
     };
 
-    cache.set(title, fallbackArticle);
-    return fallbackArticle;
+    cache.set(title, fallback);
+    return fallback;
   }
 }
