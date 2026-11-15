@@ -1,0 +1,5 @@
+# TabbyPatrol - Python Dependencies
+# Lightweight, high-performance desktop overlay requirements
+
+pillow>=10.0.0
+numpy>=1.24.0

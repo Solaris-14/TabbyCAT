@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TabbyPatrol</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="card">
+    <!-- Header -->
+    <header class="header">
+      <div class="cat-avatar">🐱</div>
+      <div class="title-wrap">
+        <h1>TabbyPatrol</h1>
+        <p class="subtitle">Your Desktop Tab Guardian Cat</p>
+      </div>
+    </header>
+
+    <!-- Connection Status -->
+    <div id="status-badge" class="status-badge disconnected">
+      <span class="status-dot"></span>
+      <span id="status-text">Connecting to Desktop Cat...</span>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="stats-row">
+      <div class="stat-box">
+        <span class="stat-num" id="stat-swatted">0</span>
+        <span class="stat-label">Tabs Swatted</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-num" id="stat-blocked-count">11</span>
+        <span class="stat-label">Protected Sites</span>
+      </div>
+    </div>
+
+    <!-- Test Button -->
+    <button id="test-swat-btn" class="btn-primary">
+      🐾 Test Swat on Current Tab
+    </button>
+
+    <!-- Blocked Domains Section -->
+    <div class="section">
+      <div class="section-header">
+        <label>Blocked Distraction Sites</label>
+        <span class="site-count" id="site-count-badge">11 sites</span>
+      </div>
+
+      <div class="input-group">
+        <input type="text" id="new-domain-input" placeholder="e.g. reddit.com" autocomplete="off" />
+        <button id="add-domain-btn" class="btn-secondary">Add</button>
+      </div>
+
+      <div id="domains-list" class="domains-list">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>Tip: Make sure the Tabby Desktop Overlay is running!</p>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
