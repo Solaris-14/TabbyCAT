@@ -40,6 +40,9 @@ except ImportError:
 from pillow_sprites import create_pillow_with_cat, create_pillow_sprite
 from ai_agent import AiTabGuardAgent, RECT
 from hud_window import AgentHudWindow
+import sys
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from agent import print_startup_banner, set_trace_enabled, is_trace_enabled
 
 
 class FullFledgedTabbyApp:
@@ -82,6 +85,7 @@ class FullFledgedTabbyApp:
 
         self.agent = AiTabGuardAgent()
         self.sound_enabled = True
+        self._start_kill_switch_listener()
 
         # Compact Pillow Roost in bottom-right corner
         self.pillow_x = float(self.screen_w - 150)
@@ -758,11 +762,39 @@ class FullFledgedTabbyApp:
                 font=("Segoe UI Emoji", 11, "bold")
             )
 
+    def _start_kill_switch_listener(self):
+        """Global Kill Switch: Pressing Ctrl+Alt+Shift+K instantly halts tab closing."""
+        def _hotkey_worker():
+            HOTKEY_ID = 101
+            MOD_ALT = 0x0001
+            MOD_CONTROL = 0x0002
+            MOD_SHIFT = 0x0004
+            VK_K = 0x4B
+            try:
+                registered = user32.RegisterHotKey(None, HOTKEY_ID, MOD_ALT | MOD_CONTROL | MOD_SHIFT, VK_K)
+                if registered:
+                    msg = wintypes.MSG()
+                    while user32.GetMessageW(ctypes.byref(msg), None, 0, 0) != 0:
+                        if msg.message == 0x0312:  # WM_HOTKEY
+                            self.agent.enabled = False
+                            self.agent.enforcement_enabled = False
+                            print("\n[KILL SWITCH] Ctrl+Alt+Shift+K triggered! Sniping disabled.")
+                            self.show_speech("KILL SWITCH TRIGGERED! 🐾🛑", duration=100)
+                        user32.TranslateMessage(ctypes.byref(msg))
+                        user32.DispatchMessageW(ctypes.byref(msg))
+            except Exception:
+                pass
+
+        threading.Thread(target=_hotkey_worker, daemon=True).start()
+
     def run(self):
         self.root.mainloop()
 
 
 if __name__ == "__main__":
+    if "--agent-trace" in sys.argv:
+        set_trace_enabled(True)
+    print_startup_banner()
     app = FullFledgedTabbyApp()
     app.run()
 
